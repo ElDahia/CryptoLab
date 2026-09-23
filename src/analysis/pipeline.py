@@ -8,6 +8,7 @@ from src.analysis.indicators import (
     add_macd,
     add_bollinger_bands,
 )
+from src.analysis.markets import MARKETS
 
 
 def build_market_data(
@@ -25,3 +26,20 @@ def build_market_data(
     df = add_bollinger_bands(df)
 
     return df
+
+
+def build_all_markets(
+    interval: str = "1h",
+    limit: int = 100,
+) -> dict[str, pd.DataFrame]:
+
+    results = {}
+
+    for symbol in MARKETS:
+        results[symbol] = build_market_data(
+            symbol,
+            interval,
+            limit,
+        )
+
+    return results
